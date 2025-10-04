@@ -6,7 +6,7 @@
 
 ### "Corrupt af"
 
-Makibaka is a mini python blockchain project used as a proof-of-concept for a future project.
+Makibaka is a mini python blockchain project used as a proof-of-concept for a very soon to be government project in the Philippines.
 
 I planned this project as a prototype for future iteration of uses for a blockchain tax collecting system in order for public officials to be able to be transparent about the finances of the country.
 
@@ -34,6 +34,7 @@ A simplified version of the raw data of blockchain is provided. However, this ma
 
 
 
+
 ## Project Status
 The project is a prototype of a system in order to use blockchain for government transactions. 
 
@@ -49,4 +50,4 @@ Niq Suguitan
 
 - Email: niqban123@gmail.com
 
-Thank you for checking out Cypher!
+Thank you for checking out BlockMos!
