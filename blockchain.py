@@ -9,18 +9,18 @@ class Blockchain:
 
     # Define the objects of a normal block
     def __init__(self):
-        self.transactions = []
+        self.pending_transactions = []
         self.chain = []
         # Create the genesis block
         self.create_block(proof_work=1, previous_hash="0")
 
     # Used to add further blocks
     # Into the chian
-    def create_block(self, proof_work, previous_hash):
+    def create_block(self, votes, previous_hash):
         block = {
-            'proof_work': proof_work,
             'timestamp': time.time(),  
-            'transactions': self.transactions, 
+            'votes': votes,
+            'data': self.pending_transactions, 
             'previous_hash': previous_hash,
             'index': len(self.chain) + 1,
         }
@@ -34,10 +34,9 @@ class Blockchain:
     # will be the contribution that the miner puts in
     # in order to validate a transaction
     def add_transaction(self, transaction):
-        self.transactions.append({
-            'transaction': transaction,
-            'votes': [],
-        })
+        self.pending_transactions.append(
+            transaction
+        )
         return True
 
     # Used for calculating the hash
@@ -45,7 +44,22 @@ class Blockchain:
     def hash(self, block):
         block_contents = str(block).encode()
         return hashlib.sha256(block_contents).hexdigest()
+    
+    def validate_vote(self):
+        
+        
 
+        current_proof =  current_block['proof_work']
+        previous_proof = previous_block['proof_work']
+
+        guess = f'{previous_proof}{current_proof}'.encode()
+
+        guess_hash = hashlib.sha256(guess).hexdigest()
+
+        if guess_hash[:4] != "0000":
+            print("error 2")
+            return False
+            
     # Used for validating the contents
     # of the blockchain 
     # if it meets the right conditions

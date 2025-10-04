@@ -2,32 +2,27 @@
 
 from blockchain import Blockchain
 
-from flask import Flask
+from flask import Flask, request, url_for, redirect, render_template
 
 app = Flask(__name__)
+blockchain = Blockchain()
 
 @app.route("/")
 def home():
-    return "skibidi toilet"
+    return render_template("home.html")
 
-@app.route("/new_transaction", methods=["GET", "POST"])
-def new_transaction():
-    ...
-
-@app.route
+@app.route("/vote")
 def vote():
-    ...
+    return render_template("vote.html", chain=blockchain.chain)
 
-@app.route("/add_block")
+@app.route("/add_block", methods=["GET", "POST"])
 # Used in order to confirm and add a block
 def add_block():
-    blockchain = Blockchain()
-
-    while True:
+    if request.method == "POST":
         # Look at the last block
 
         previous_block = blockchain.chain[-1]
-        previous_proof = previous_block['proof_work']
+
         
 
         """
@@ -48,21 +43,25 @@ def add_block():
         coins to those miners.
         
         """
+
+        tx = {
+            "from": request.form.get("from"),
+            "to": request.form.get("to"),
+            "amount": request.form.get("amount"),
+            "purpose": request.form.get("purpose")
+        }
+
+        blockchain.add_transaction(tx)
         # Use an api to get the list of transactions? 
         # But how will be able to get a list of transaction?
-
-        # What if we actually give input of the transactions?
-        # In order to do that, I guess it would be great to learn forms with flask
-        blockchain.transactions = ...
-        
-        # Genarate a valid proof-of-work
-        proof = blockchain.proof_of_work(previous_proof)
-        
         # Hash the previous block
         previous_hash = blockchain.hash(previous_block)
+        
+        # Should have the votes here
+        
         # Create a new block
         
-        new_block = blockchain.create_block(proof_work=proof, previous_hash=previous_hash)
+        new_block = blockchain.create_block(transaction=tx, previous_hash=previous_hash)
         print(new_block)
 
         # Validate the chain
