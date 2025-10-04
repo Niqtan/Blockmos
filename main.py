@@ -1,11 +1,13 @@
 # This program is for running the blockchain simulation via the flask API
 
 from blockchain import Blockchain
+from coin import Coins
 
 from flask import Flask, request, url_for, redirect, render_template
 
 app = Flask(__name__)
 blockchain = Blockchain()
+wallet = Coins()
 
 @app.route("/")
 def home():
@@ -15,15 +17,31 @@ def home():
 def vote():
     return render_template("vote.html", chain=blockchain.chain)
 
+previous_block = blockchain.chain
+no_votes = 0
+
+@app.route("/validate_vote", methods=["POST"])
+def validate_vote():
+    user_vote = request.form.get("vote")
+
+    if user_vote == "approve":
+        blockchain.validate_vote(previous_block)
+        no_votes += 1
+
+        miner_id = len(blockchain.chain) + 1
+        print(f"{miner_id} approved of the transaction!")
+        wallet.reward_miner(miner_address=miner_id)
+
+        return f"{miner_id}'s balance: {wallet.balance}"
+    else:
+        return redirect(url_for('/'))
+
+
 @app.route("/add_block", methods=["GET", "POST"])
 # Used in order to confirm and add a block
 def add_block():
     if request.method == "POST":
         # Look at the last block
-
-        previous_block = blockchain.chain[-1]
-
-        
 
         """
         
@@ -57,11 +75,9 @@ def add_block():
         # Hash the previous block
         previous_hash = blockchain.hash(previous_block)
         
-        # Should have the votes here
-        
         # Create a new block
         
-        new_block = blockchain.create_block(transaction=tx, previous_hash=previous_hash)
+        new_block = blockchain.create_block(votes=no_votes, previous_hash=previous_hash)
         print(new_block)
 
         # Validate the chain

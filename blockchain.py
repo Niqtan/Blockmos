@@ -45,20 +45,22 @@ class Blockchain:
         block_contents = str(block).encode()
         return hashlib.sha256(block_contents).hexdigest()
     
-    def validate_vote(self):
-        
-        
+    def validate_vote(self, block):
+        nonce = 1
+        block_data = str(block)
+        while True:
+            guess = f"{block_data}{nonce}".encode()
 
-        current_proof =  current_block['proof_work']
-        previous_proof = previous_block['proof_work']
+            # Hash that guess
+            guess_hash = hashlib.sha256(guess).hexdigest()
+            
+            if guess_hash[:4] == "0000":
+                print(f"Nonce has been found: {nonce}")
+                return nonce
+            else:
+                print("Nonce has not been found yet! You got this lil bro!")
+                nonce+=1
 
-        guess = f'{previous_proof}{current_proof}'.encode()
-
-        guess_hash = hashlib.sha256(guess).hexdigest()
-
-        if guess_hash[:4] != "0000":
-            print("error 2")
-            return False
             
     # Used for validating the contents
     # of the blockchain 
@@ -72,21 +74,6 @@ class Blockchain:
 
             if current_block['previous_hash'] != self.hash(previous_block):
                 print("Chain is broken... mayday! mayday!")
-                return False
-
-        #Fix it if the previous hash == current hash
-
-        # Check if the proof-of-work is valid
-
-            current_proof =  current_block['proof_work']
-            previous_proof = previous_block['proof_work']
-
-            guess = f'{previous_proof}{current_proof}'.encode()
-
-            guess_hash = hashlib.sha256(guess).hexdigest()
-
-            if guess_hash[:4] != "0000":
-                print("error 2")
                 return False
             
         return True
