@@ -1,6 +1,7 @@
 # Makibaka
 
 ## Demonstration
+https://blockmos.vercel.app/
 
 ## Project Aims
 
@@ -10,7 +11,7 @@ Makibaka is a mini python blockchain project used as a proof-of-concept for a ve
 
 I planned this project as a prototype for future iteration of uses for a blockchain tax collecting system in order for public officials to be able to be transparent about the finances of the country.
 
-![alt text](public/image-1.png)
+![alt text](images/image-1.png)
 
 ## Contents of the Project
 
@@ -29,11 +30,6 @@ Every time a citizen audits data or contributes to verifying a ledger, they earn
 
 ### Accessbility
 A simplified version of the raw data of blockchain is provided. However, this may only be done with a sufficient UI.
-
-## Installation
-
-
-
 
 ## Project Status
 The project is a prototype of a system in order to use blockchain for government transactions. 
