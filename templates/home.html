@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAKIBAKA</title>
+</head>
+<body>
+    <h1>Makibaka!</h1>
+    <p>Learn about how the government spends the money!</p>
+    <p>Current Balance: {{balance}} hacker points!</p>
+    {% if request.endpoint == 'home' %}
+
+        <form method="POST" action="/add_block">
+            <p>From:</p> <input type="text" name="from" value="sigmaboy"> 
+            </p>To:</p> <input type="text" name="to" value="john pork">
+            <p>Amount (USD):</p> <input type="number" name="amount" value="1241">
+            <p>Purpose</p> <input type="text" name="purpose" value="In order to make john pork lore real">
+            <button type="submit">Send Transfer</button>
+        </form>
+        
+        <a href="{{url_for('vote')}}">Start Voting!</a>
+    
+    {% endif %}
+</body>
+</html>

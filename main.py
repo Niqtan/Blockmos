@@ -11,17 +11,18 @@ wallet = Coins()
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", balance=wallet.balance )
 
 @app.route("/vote")
 def vote():
     return render_template("vote.html", chain=blockchain.chain)
 
-previous_block = blockchain.chain
+previous_block = blockchain.chain[-1]
 no_votes = 0
 
 @app.route("/validate_vote", methods=["POST"])
 def validate_vote():
+    global no_votes
     user_vote = request.form.get("vote")
 
     if user_vote == "approve":
@@ -32,9 +33,9 @@ def validate_vote():
         print(f"{miner_id} approved of the transaction!")
         wallet.reward_miner(miner_address=miner_id)
 
-        return f"{miner_id}'s balance: {wallet.balance}"
+        return redirect(url_for('home'))
     else:
-        return redirect(url_for('/'))
+        return redirect(url_for('home'))
 
 
 @app.route("/add_block", methods=["GET", "POST"])
@@ -61,11 +62,11 @@ def add_block():
         coins to those miners.
         
         """
-
+        amount = int(request.form.get("amount"))
         tx = {
             "from": request.form.get("from"),
             "to": request.form.get("to"),
-            "amount": request.form.get("amount"),
+            "amount": amount,
             "purpose": request.form.get("purpose")
         }
 
@@ -84,6 +85,7 @@ def add_block():
 
         if blockchain.chain_valid():
             print("Blockchain looks good!")
+            return redirect(url_for('home'))
         else:
             print("Blockchain aint looking so good")
 

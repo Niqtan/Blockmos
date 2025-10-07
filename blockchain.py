@@ -12,7 +12,7 @@ class Blockchain:
         self.pending_transactions = []
         self.chain = []
         # Create the genesis block
-        self.create_block(proof_work=1, previous_hash="0")
+        self.create_block(votes=0, previous_hash="0")
 
     # Used to add further blocks
     # Into the chian
@@ -37,7 +37,6 @@ class Blockchain:
         self.pending_transactions.append(
             transaction
         )
-        return True
 
     # Used for calculating the hash
     # of a block 

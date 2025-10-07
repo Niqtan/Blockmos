@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAKIBAKA</title>
+</head>
+<body>
+    {% if request.endpoint == 'vote' %}
+        {% for block in chain %}
+            <p>This page will only appear if we press the vote button!</p>
+            <p>{{block}}</p>
+
+        {% endfor %}
+        <form method="POST" action="{{url_for('validate_vote')}}">
+            <button type="submit" name="vote" value="approve">Approve</button>
+            <button type="submit" name="vote" value="refuse">Refuse</button>
+        </form>
+    {% endif %}
+</body>
+</html>
